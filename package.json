@@ -1,0 +1,28 @@
+{
+  "name": "joneses-website",
+  "version": "1.0.0",
+  "description": "Website for The Joneses - UK Smiths tribute band",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "keywords": [
+    "smiths",
+    "tribute",
+    "band",
+    "music"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "jsdom": "^27.4.0",
+    "vite": "^6.3.4",
+    "vitest": "^3.1.2"
+  }
+}

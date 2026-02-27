@@ -510,7 +510,19 @@ export function initSmoothScroll() {
 /**
  * Initialize all functionality when DOM is ready
  */
+export function initHeroFadeIn() {
+    const heroBg = document.querySelector('.hero-bg');
+    if (!heroBg) return;
+
+    const img = new Image();
+    img.onload = () => { heroBg.style.opacity = '1'; };
+    // Extract the background-image URL
+    const bgUrl = getComputedStyle(heroBg).backgroundImage.slice(5, -2);
+    img.src = bgUrl;
+}
+
 export function init() {
+    initHeroFadeIn();
     initNavScroll();
     initMobileNav();
     initHeroEffects();

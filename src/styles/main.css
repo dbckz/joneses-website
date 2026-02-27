@@ -198,9 +198,11 @@ body {
     left: 0;
     right: 0;
     height: 100vh;
-    background: url('/assets/hero.jpg') center/cover;
+    background: var(--charcoal) url('/assets/hero.webp') center/cover;
     filter: grayscale(100%) contrast(1.1);
     z-index: -1;
+    opacity: 0;
+    transition: opacity 0.8s ease;
 }
 
 .hero-overlay {
@@ -398,7 +400,7 @@ main {
 
 .story-image {
     aspect-ratio: 3/4;
-    background: url('/assets/story.jpg') center/cover;
+    background: url('/assets/story.webp') center/cover;
     filter: grayscale(100%) contrast(1.1);
     position: relative;
 }
@@ -757,7 +759,7 @@ main {
 .contact-bg {
     position: absolute;
     inset: 0;
-    background: url('/assets/contact-bg.jpg') center/cover;
+    background: url('/assets/contact-bg.webp') center/cover;
     filter: grayscale(100%) contrast(1.1);
 }
 

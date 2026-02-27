@@ -401,7 +401,6 @@ main {
 .story-image {
     aspect-ratio: 3/4;
     background: url('/assets/story.webp') center/cover;
-    filter: grayscale(100%) contrast(1.1);
     position: relative;
 }
 
@@ -497,8 +496,17 @@ main {
    Band Section
    ============================================ */
 .band-section {
-    background: var(--cream);
+    background: var(--green-deep);
+    color: white;
     padding: var(--section-padding);
+}
+
+.band-section .section-title {
+    color: white;
+}
+
+.band-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .band-grid {
@@ -518,7 +526,7 @@ main {
     height: 160px;
     border-radius: 50%;
     background: var(--charcoal) center/cover;
-    filter: grayscale(100%);
+    filter: saturate(0.15) brightness(0.85);
     margin: 0 auto 1rem;
     transition: filter var(--transition-medium), transform var(--transition-medium);
     border: 3px solid transparent;
@@ -526,21 +534,37 @@ main {
 
 .band-member:hover .band-member-img,
 .band-member:focus-within .band-member-img {
-    filter: grayscale(50%);
+    filter: saturate(1) brightness(1);
     transform: scale(1.05);
-    border-color: var(--green-deep);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .band-member h3 {
     font-family: var(--font-heading);
     font-size: 1.2rem;
     margin-bottom: 0.25rem;
+    opacity: 0.7;
+    transition: opacity var(--transition-medium), transform var(--transition-medium);
 }
 
 .band-member p {
-    color: var(--grey);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
     font-style: italic;
+    opacity: 0.7;
+    transition: opacity var(--transition-medium), transform var(--transition-medium);
+}
+
+.band-member:hover h3,
+.band-member:focus-within h3 {
+    opacity: 1;
+    transform: scale(1.1);
+    font-weight: 600;
+}
+
+.band-member:hover p,
+.band-member:focus-within p {
+    opacity: 1;
 }
 
 /* ============================================
@@ -651,9 +675,9 @@ main {
     inset: 0;
     background: linear-gradient(
         to bottom,
-        rgba(7, 61, 29, 0.3) 0%,
-        rgba(7, 61, 29, 0.2) 50%,
-        rgba(7, 61, 29, 0.3) 100%
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.05) 50%,
+        rgba(0, 0, 0, 0.15) 100%
     );
 }
 

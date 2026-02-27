@@ -89,6 +89,11 @@ export function initHeroEffects() {
 
     if (!hero || !heroContent) return;
 
+    // Fade in scroll indicator after a short delay
+    if (heroScroll) {
+        setTimeout(() => { heroScroll.style.opacity = '0.9'; }, 800);
+    }
+
     // Setup quote words for highlight effect
     let quoteWords = [];
     if (heroQuoteBlockquote) {
@@ -150,9 +155,10 @@ export function initHeroEffects() {
         heroContent.style.opacity = 1 - logoFadeProgress;
         heroContent.style.transform = `translateY(${logoFadeProgress * -30}px)`;
 
-        // Fade out scroll indicator
-        if (heroScroll) {
-            heroScroll.style.opacity = Math.max(0.7 - logoFadeProgress, 0);
+        // Fade out scroll indicator quickly once user starts scrolling
+        if (heroScroll && scrollY > 0) {
+            const scrollFade = Math.min(scrollY / 150, 1);
+            heroScroll.style.opacity = Math.max(0.9 - scrollFade, 0);
         }
 
         // Timeline (percentages of hero height):

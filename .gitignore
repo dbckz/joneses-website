@@ -22,6 +22,10 @@ coverage/
 .DS_Store
 Thumbs.db
 
+# Working assets
+old_assets/
+new_assets/
+
 # Environment
 .env
 .env.local

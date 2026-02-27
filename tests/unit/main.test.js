@@ -374,15 +374,4 @@ describe('initScrollAnimations', () => {
         document.body.removeChild(bandMember);
     });
 
-    it('should observe testimonial elements', () => {
-        const testimonial = document.createElement('div');
-        testimonial.className = 'testimonial';
-        document.body.appendChild(testimonial);
-
-        initScrollAnimations();
-
-        expect(mockObserve).toHaveBeenCalledWith(testimonial);
-
-        document.body.removeChild(testimonial);
-    });
 });

@@ -253,9 +253,6 @@ export function initScrollAnimations() {
         // Gigs
         { selector: '.gig-item', class: 'animate-on-scroll animate-stagger' },
 
-        // Testimonials
-        { selector: '.testimonial', class: 'animate-on-scroll animate-stagger' },
-
         // Contact section
         { selector: '.contact-info', class: 'animate-from-left' },
         { selector: '.contact-form', class: 'animate-from-right' },

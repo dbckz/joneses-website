@@ -1163,6 +1163,7 @@ footer {
 
     .hero-bg {
         position: absolute;
+        background-position: 66% center;
     }
 
     .mailing-list-input-group {

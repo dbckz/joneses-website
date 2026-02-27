@@ -177,19 +177,22 @@ export function initHeroEffects() {
             const quoteFadeOutEnd = heroHeight * 0.90;
 
             // Quote container fade in/out
+            let quoteOpacity;
             if (scrollY < quoteFadeInStart) {
-                heroQuote.style.opacity = 0;
+                quoteOpacity = 0;
             } else if (scrollY < quoteFadeInEnd) {
-                const progress = (scrollY - quoteFadeInStart) / (quoteFadeInEnd - quoteFadeInStart);
-                heroQuote.style.opacity = progress;
+                quoteOpacity = (scrollY - quoteFadeInStart) / (quoteFadeInEnd - quoteFadeInStart);
             } else if (scrollY < quoteFadeOutStart) {
-                heroQuote.style.opacity = 1;
+                quoteOpacity = 1;
             } else if (scrollY < quoteFadeOutEnd) {
-                const progress = (scrollY - quoteFadeOutStart) / (quoteFadeOutEnd - quoteFadeOutStart);
-                heroQuote.style.opacity = 1 - progress;
+                quoteOpacity = 1 - (scrollY - quoteFadeOutStart) / (quoteFadeOutEnd - quoteFadeOutStart);
             } else {
-                heroQuote.style.opacity = 0;
+                quoteOpacity = 0;
             }
+            heroQuote.style.opacity = quoteOpacity;
+            const quoteVisible = quoteOpacity > 0.01;
+            heroQuote.style.pointerEvents = quoteVisible ? 'auto' : 'none';
+            heroQuote.style.visibility = quoteVisible ? 'visible' : 'hidden';
 
             // Quote word highlighting
             if (quoteWords.length > 0) {

@@ -1152,10 +1152,17 @@ footer {
         margin-top: 1rem;
     }
 
-    .press,
+    .press {
+        padding: 0;
+    }
+
     .contact,
     .mailing-list {
         padding: var(--section-padding-mobile);
+    }
+
+    .hero-bg {
+        position: absolute;
     }
 
     .mailing-list-input-group {

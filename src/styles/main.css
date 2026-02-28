@@ -661,6 +661,13 @@ main {
     cursor: default;
 }
 
+.gig-link-unavailable {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: default;
+    font-size: 0.75rem;
+}
+
 .gigs-message {
     text-align: center;
     color: rgba(255, 255, 255, 0.6);

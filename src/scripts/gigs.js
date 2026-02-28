@@ -119,7 +119,7 @@ function renderGigItem(gig, isPast) {
     } else if (ticketUrl) {
         linkHtml = `<a href="${escapeHtml(ticketUrl)}" class="gig-link" target="_blank" rel="noopener">Tickets</a>`;
     } else {
-        linkHtml = '<a href="#contact" class="gig-link">Tickets</a>';
+        linkHtml = '<span class="gig-link gig-link-unavailable">Not yet on sale</span>';
     }
 
     return `<article class="gig-item">

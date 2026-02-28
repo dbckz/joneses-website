@@ -160,7 +160,10 @@ export function initHeroEffects() {
         // Fade out scroll indicator quickly once user starts scrolling
         if (heroScroll && scrollY > 0) {
             const scrollFade = Math.min(scrollY / 150, 1);
-            heroScroll.style.opacity = Math.max(0.9 - scrollFade, 0);
+            const scrollOpacity = Math.max(0.9 - scrollFade, 0);
+            heroScroll.style.opacity = scrollOpacity;
+            heroScroll.style.pointerEvents = scrollOpacity > 0.01 ? 'auto' : 'none';
+            heroScroll.style.visibility = scrollOpacity > 0.01 ? 'visible' : 'hidden';
         }
 
         // Timeline (percentages of hero height):

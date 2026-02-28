@@ -7,7 +7,7 @@
 // To set up: Create a Google Sheet with columns Date, Venue, Location, Ticket URL
 // Then: File > Share > Publish to web > Select sheet > CSV > Publish
 // Paste the URL below
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRp9gHe0mOXbsM2qoUmflltHIzEKQkOeRshDCkPVLhxGRJKwSjPOHlst__aRyK3nf-9GGy-RlFzIXQM/pub?gid=0&single=true&output=csv';
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS_oB0L7A_wxTEFgXJ43mSMWsjxMTekfnBU8H_IHVQxNGT0x84hZMI67jSRhUXT05KtdqxYpl-szZJH/pub?gid=0&single=true&output=csv';
 
 /**
  * Parse CSV text into an array of objects

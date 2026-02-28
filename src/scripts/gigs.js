@@ -175,7 +175,37 @@ export async function initGigs() {
 
         if (past.length > 0 && pastGigsContainer && pastGigsToggle) {
             pastGigsToggle.style.display = 'block';
-            pastGigsContainer.innerHTML = past.map(g => renderGigItem(g, true)).join('');
+
+            const currentYear = new Date().getFullYear();
+            const byYear = {};
+            past.forEach(g => {
+                const year = parseDate(g['Date']).getFullYear();
+                if (!byYear[year]) byYear[year] = [];
+                byYear[year].push(g);
+            });
+
+            const years = Object.keys(byYear).sort((a, b) => b - a);
+            pastGigsContainer.innerHTML = years.map(year => {
+                const isCurrentYear = parseInt(year) === currentYear;
+                return `<div class="past-gigs-year">
+                    <button class="past-gigs-year-toggle${isCurrentYear ? ' active' : ''}" aria-expanded="${isCurrentYear}">
+                        <span class="past-gigs-year-arrow">&#9656;</span>
+                        <span>${year}</span>
+                    </button>
+                    <div class="past-gigs-year-list${isCurrentYear ? ' active' : ''}">
+                        ${byYear[year].map(g => renderGigItem(g, true)).join('')}
+                    </div>
+                </div>`;
+            }).join('');
+
+            pastGigsContainer.querySelectorAll('.past-gigs-year-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const list = btn.nextElementSibling;
+                    const isOpen = list.classList.toggle('active');
+                    btn.classList.toggle('active', isOpen);
+                    btn.setAttribute('aria-expanded', isOpen);
+                });
+            });
 
             pastGigsToggle.addEventListener('click', () => {
                 const isOpen = pastGigsContainer.classList.toggle('active');

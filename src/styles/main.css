@@ -708,6 +708,47 @@ main {
     opacity: 0.5;
 }
 
+.past-gigs-year-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.past-gigs-year-toggle:hover {
+    color: white;
+}
+
+.past-gigs-year-toggle.active {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.past-gigs-year-arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.past-gigs-year-toggle.active .past-gigs-year-arrow {
+    transform: rotate(90deg);
+}
+
+.past-gigs-year-list {
+    display: none;
+}
+
+.past-gigs-year-list.active {
+    display: block;
+}
+
 /* ============================================
    Press Section
    ============================================ */

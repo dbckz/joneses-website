@@ -463,7 +463,7 @@ export function initMailingListForm() {
     const form = document.getElementById('mailingListForm');
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const emailInput = form.querySelector('#mailingEmail');
@@ -477,24 +477,36 @@ export function initMailingListForm() {
             return;
         }
 
-        // Disable button during submission
         submitBtn.disabled = true;
         submitBtn.textContent = 'Subscribing...';
 
-        // Simulate form submission
-        setTimeout(() => {
-            status.textContent = 'Thanks for subscribing! We\'ll be in touch.';
-            status.className = 'mailing-list-status success';
-            emailInput.value = '';
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Subscribe';
+        try {
+            const response = await fetch('https://formspree.io/f/mbdaedov', {
+                method: 'POST',
+                body: JSON.stringify({ email }),
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            });
 
-            // Clear success message after 5 seconds
-            setTimeout(() => {
-                status.textContent = '';
-                status.className = 'mailing-list-status';
-            }, 5000);
-        }, 1000);
+            if (response.ok) {
+                status.textContent = 'Thanks for subscribing! We\'ll be in touch.';
+                status.className = 'mailing-list-status success';
+                emailInput.value = '';
+
+                setTimeout(() => {
+                    status.textContent = '';
+                    status.className = 'mailing-list-status';
+                }, 5000);
+            } else {
+                status.textContent = 'Something went wrong. Please try again.';
+                status.className = 'mailing-list-status error';
+            }
+        } catch {
+            status.textContent = 'Something went wrong. Please try again.';
+            status.className = 'mailing-list-status error';
+        }
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Subscribe';
     });
 }
 

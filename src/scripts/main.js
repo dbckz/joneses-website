@@ -391,7 +391,7 @@ export function validateForm(form) {
  * Handle form submission
  * @param {Event} e - Submit event
  */
-export function handleFormSubmit(e) {
+export async function handleFormSubmit(e) {
     e.preventDefault();
 
     const form = e.target;
@@ -406,25 +406,35 @@ export function handleFormSubmit(e) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
 
-    // Simulate form submission (in production, this would be an API call)
-    setTimeout(() => {
-        // Show success message
-        formStatus.className = 'form-status success';
-        formStatus.textContent = 'Thank you for your message! We\'ll be in touch soon.';
+    const data = new FormData(form);
 
-        // Reset form
-        form.reset();
+    try {
+        const response = await fetch('https://formspree.io/f/xwvnjvvz', {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        });
 
-        // Re-enable button
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
+        if (response.ok) {
+            formStatus.className = 'form-status success';
+            formStatus.textContent = 'Thank you for your message! We\'ll be in touch soon.';
+            form.reset();
 
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-            formStatus.className = 'form-status';
-            formStatus.textContent = '';
-        }, 5000);
-    }, 1000);
+            setTimeout(() => {
+                formStatus.className = 'form-status';
+                formStatus.textContent = '';
+            }, 5000);
+        } else {
+            formStatus.className = 'form-status error';
+            formStatus.textContent = 'Something went wrong. Please try again.';
+        }
+    } catch {
+        formStatus.className = 'form-status error';
+        formStatus.textContent = 'Something went wrong. Please try again.';
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send Message';
 }
 
 /**

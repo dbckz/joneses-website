@@ -130,16 +130,19 @@ body {
 
 .nav-logo {
     background: var(--green-deep);
-    border: 2px solid white;
-    padding: 0.4rem 1rem;
+    border: 3px solid #eacce3;
+    border-radius: 6px;
+    padding: 0.3rem 1rem;
+    outline: 2px solid var(--green-deep);
 }
 
 .nav-logo span {
     font-family: var(--font-heading);
-    font-weight: 600;
+    font-weight: 800;
     font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    color: white;
+    letter-spacing: 0.1em;
+    padding-left: 0.1em;
+    color: #eacce3;
 }
 
 .nav-links {
@@ -231,19 +234,23 @@ body {
 
 .hero-logo {
     background: var(--green-deep);
-    border: 3px solid white;
-    padding: 1.25rem 3rem;
+    border: 5px solid #eacce3;
+    border-radius: 12px;
+    padding: 1rem 3rem;
     margin-bottom: 2rem;
     display: inline-block;
+    outline: 3px solid var(--green-deep);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 }
 
 .hero-logo h1 {
     font-family: var(--font-heading);
-    font-weight: 600;
+    font-weight: 900;
     font-size: clamp(2rem, 5vw, 3.5rem);
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
+    padding-left: 0.15em;
     margin: 0;
+    color: #eacce3;
 }
 
 .hero-tagline {
@@ -1118,18 +1125,21 @@ footer {
 
 .footer-logo {
     background: var(--green-deep);
-    border: 2px solid white;
-    padding: 0.5rem 1.5rem;
+    border: 3px solid #eacce3;
+    border-radius: 8px;
+    padding: 0.4rem 1.5rem;
     display: inline-block;
     margin-bottom: 2rem;
+    outline: 2px solid var(--green-deep);
 }
 
 .footer-logo span {
     font-family: var(--font-heading);
-    font-weight: 600;
+    font-weight: 800;
     font-size: 1rem;
-    letter-spacing: 0.15em;
-    color: white;
+    letter-spacing: 0.1em;
+    padding-left: 0.1em;
+    color: #eacce3;
 }
 
 .footer-links {

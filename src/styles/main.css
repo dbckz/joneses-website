@@ -655,6 +655,52 @@ main {
     color: var(--charcoal);
 }
 
+.gig-link-past {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: default;
+}
+
+.gigs-message {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    padding: 2rem 0;
+}
+
+.past-gigs-toggle {
+    display: block;
+    margin: 2rem auto 0;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0.75rem 2rem;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.past-gigs-toggle:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    color: white;
+}
+
+.past-gigs-list {
+    display: none;
+    margin-top: 1rem;
+}
+
+.past-gigs-list.active {
+    display: block;
+}
+
+.past-gigs-list .gig-item {
+    opacity: 0.5;
+}
+
 /* ============================================
    Press Section
    ============================================ */

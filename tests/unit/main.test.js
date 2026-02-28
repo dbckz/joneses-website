@@ -350,17 +350,7 @@ describe('initScrollAnimations', () => {
         );
     });
 
-    it('should observe gig-item elements', () => {
-        const gigItem = document.createElement('div');
-        gigItem.className = 'gig-item';
-        document.body.appendChild(gigItem);
-
-        initScrollAnimations();
-
-        expect(mockObserve).toHaveBeenCalledWith(gigItem);
-
-        document.body.removeChild(gigItem);
-    });
+    // gig-item observation is now handled dynamically by gigs.js
 
     it('should observe band-member elements', () => {
         const bandMember = document.createElement('div');

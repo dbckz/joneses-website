@@ -3,6 +3,8 @@
  * UK Smiths Tribute Band Website
  */
 
+import { initGigs } from './gigs.js';
+
 // ============================================
 // Navigation
 // ============================================
@@ -259,8 +261,7 @@ export function initScrollAnimations() {
         // Band members
         { selector: '.band-member', class: 'animate-on-scroll animate-stagger' },
 
-        // Gigs
-        { selector: '.gig-item', class: 'animate-on-scroll animate-stagger' },
+        // Gigs — handled dynamically by gigs.js after fetch
 
         // Contact section
         { selector: '.contact-info', class: 'animate-from-left' },
@@ -536,6 +537,7 @@ export function init() {
     initMobileNav();
     initHeroEffects();
     initScrollAnimations();
+    initGigs();
     initContactForm();
     initMailingListForm();
     initSmoothScroll();

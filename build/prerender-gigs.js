@@ -4,14 +4,18 @@
  * without needing to execute JavaScript.
  */
 
-import { SHEET_CSV_URL, parseCSV, sortAndRenderGigs } from './gig-utils.js';
+import { SHEET_CSV_URL, parseCSV, sortAndRenderGigs, generateGigStructuredData } from './gig-utils.js';
 
-async function fetchAndRenderGigs() {
+async function fetchGigData() {
     const response = await fetch(SHEET_CSV_URL);
     if (!response.ok) throw new Error(`Failed to fetch gigs: ${response.status}`);
 
     const csv = await response.text();
-    return sortAndRenderGigs(parseCSV(csv));
+    const allGigs = parseCSV(csv);
+    return {
+        ...sortAndRenderGigs(allGigs),
+        events: generateGigStructuredData(allGigs),
+    };
 }
 
 export default function prerenderGigs() {
@@ -19,7 +23,7 @@ export default function prerenderGigs() {
         name: 'prerender-gigs',
         async transformIndexHtml(html) {
             try {
-                const { upcomingHtml, pastHtml, hasPast } = await fetchAndRenderGigs();
+                const { upcomingHtml, pastHtml, hasPast, events } = await fetchGigData();
 
                 html = html.replace(
                     '<p class="gigs-message">Loading gigs...</p>',
@@ -42,8 +46,14 @@ export default function prerenderGigs() {
                     'id="gigsList" data-prerendered="true"'
                 );
 
+                // Inject MusicEvent structured data for upcoming gigs
+                if (events.length > 0) {
+                    const jsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(events, null, 4).split('\n').join('\n    ')}\n    </script>`;
+                    html = html.replace('</head>', `${jsonLd}\n</head>`);
+                }
+
                 const status = upcomingHtml.includes('gig-item') ? 'gigs' : 'no-gigs message';
-                console.log(`[prerender-gigs] Pre-rendered ${status} successfully`);
+                console.log(`[prerender-gigs] Pre-rendered ${status} (${events.length} events) successfully`);
                 return html;
             } catch (error) {
                 console.warn(`[prerender-gigs] Failed to pre-render: ${error.message}`);

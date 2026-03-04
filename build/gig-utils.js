@@ -135,6 +135,45 @@ export function renderPastGigs(past) {
 }
 
 /**
+ * Generate JSON-LD MusicEvent structured data for upcoming gigs.
+ */
+export function generateGigStructuredData(allGigs) {
+    const valid = allGigs.filter(g => g['Date'] && g['Venue']);
+    const upcoming = valid.filter(g => !isPastGig(g['Date']));
+
+    return upcoming.map(gig => {
+        const date = parseDate(gig['Date']);
+        const isoDate = date.toISOString().split('T')[0];
+
+        const event = {
+            '@context': 'https://schema.org',
+            '@type': 'MusicEvent',
+            'name': `The Joneses live at ${gig['Venue']}`,
+            'startDate': isoDate,
+            'performer': {
+                '@type': 'MusicGroup',
+                'name': 'The Joneses',
+            },
+            'location': {
+                '@type': 'Place',
+                'name': gig['Venue'],
+                'address': gig['Location'] || undefined,
+            },
+        };
+
+        if (gig['Ticket URL']) {
+            event.offers = {
+                '@type': 'Offer',
+                'url': gig['Ticket URL'],
+                'availability': 'https://schema.org/InStock',
+            };
+        }
+
+        return event;
+    });
+}
+
+/**
  * Sort and split gigs into upcoming and past, returning rendered HTML for each.
  */
 export function sortAndRenderGigs(allGigs) {

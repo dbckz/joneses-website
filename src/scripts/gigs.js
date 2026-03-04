@@ -10,6 +10,11 @@ import {
     sortAndRenderGigs,
 } from '../../build/gig-utils.js';
 
+function handlePastGigsToggleClick(pastGigsContainer, pastGigsToggle) {
+    const isOpen = pastGigsContainer.classList.toggle('active');
+    pastGigsToggle.textContent = isOpen ? 'Hide Past Gigs' : 'Past Gigs';
+}
+
 function hydratePastGigs(pastGigsContainer, pastGigsToggle) {
     pastGigsContainer.querySelectorAll('.past-gigs-year-toggle').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -20,10 +25,8 @@ function hydratePastGigs(pastGigsContainer, pastGigsToggle) {
         });
     });
 
-    pastGigsToggle.addEventListener('click', () => {
-        const isOpen = pastGigsContainer.classList.toggle('active');
-        pastGigsToggle.textContent = isOpen ? 'Hide Past Gigs' : 'Past Gigs';
-    });
+    // Replace rather than add listener to avoid duplicates on re-hydration
+    pastGigsToggle.onclick = () => handlePastGigsToggleClick(pastGigsContainer, pastGigsToggle);
 }
 
 function observeGigItems() {

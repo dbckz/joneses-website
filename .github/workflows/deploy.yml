@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 6 * * *'  # Rebuild daily at 6am UTC to refresh gig data
 
 permissions:
   contents: read

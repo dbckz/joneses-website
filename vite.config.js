@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import prerenderGigs from './build/prerender-gigs.js';
 
 export default defineConfig({
   base: '/joneses-website/',
@@ -8,6 +9,7 @@ export default defineConfig({
     outDir: '../dist',
     emptyOutDir: true,
   },
+  plugins: [prerenderGigs()],
   server: {
     port: 0, // Dynamic port allocation
     open: false,

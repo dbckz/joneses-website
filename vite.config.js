@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import prerenderGigs from './build/prerender-gigs.js';
 
 export default defineConfig({
-  base: '/joneses-website/',
+  base: '/',
   root: 'src',
   build: {
     outDir: '../dist',

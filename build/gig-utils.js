@@ -149,10 +149,19 @@ export function generateGigStructuredData(allGigs) {
             '@context': 'https://schema.org',
             '@type': 'MusicEvent',
             'name': `The Joneses live at ${gig['Venue']}`,
+            'description': `The Joneses — the UK's best Smiths tribute band — performing live at ${gig['Venue']}${gig['Location'] ? `, ${gig['Location']}` : ''}.`,
             'startDate': isoDate,
+            'endDate': isoDate,
+            'eventStatus': 'https://schema.org/EventScheduled',
+            'image': 'https://www.thejonesesband.co.uk/og-image.jpg',
             'performer': {
                 '@type': 'MusicGroup',
                 'name': 'The Joneses',
+            },
+            'organizer': {
+                '@type': 'MusicGroup',
+                'name': 'The Joneses',
+                'url': 'https://www.thejonesesband.co.uk',
             },
             'location': {
                 '@type': 'Place',

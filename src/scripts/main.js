@@ -549,11 +549,29 @@ export function initHeroFadeIn() {
     const heroBg = document.querySelector('.hero-bg');
     if (!heroBg) return;
 
-    const img = new Image();
-    img.onload = () => { heroBg.style.opacity = '1'; };
-    // Extract the background-image URL
-    const bgUrl = getComputedStyle(heroBg).backgroundImage.slice(5, -2);
-    img.src = bgUrl;
+    function showHero() {
+        heroBg.style.opacity = '1';
+    }
+
+    function tryFadeIn() {
+        const bgImage = getComputedStyle(heroBg).backgroundImage;
+
+        // backgroundImage is 'url("...")' when set, or 'none' before styles apply
+        const urlMatch = bgImage.match(/^url\("(.+)"\)$/);
+        if (!urlMatch) {
+            requestAnimationFrame(tryFadeIn);
+            return;
+        }
+
+        const img = new Image();
+        img.onload = showHero;
+        img.onerror = showHero;
+        img.src = urlMatch[1];
+        // Handle already-cached images where onload won't fire
+        if (img.complete) showHero();
+    }
+
+    tryFadeIn();
 }
 
 export function init() {

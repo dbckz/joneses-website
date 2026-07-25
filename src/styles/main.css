@@ -533,11 +533,33 @@ main {
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    background: var(--charcoal) center/cover;
+    background: var(--charcoal);
+    overflow: hidden;
     filter: saturate(0.15) brightness(0.85);
     margin: 0 auto 1rem;
     transition: filter var(--transition-medium), transform var(--transition-medium);
     border: 3px solid transparent;
+}
+
+.band-member-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Framing per member, matching the original background-position crops */
+.band-member-img[data-member="vocals"] img {
+    /* Zoomed in and panned down the frame, as with the old background-size: 130% */
+    transform: translateY(-7.25%) scale(1.24);
+}
+
+.band-member-img[data-member="bass"] img {
+    object-position: center 25%;
+}
+
+.band-member-img[data-member="drums"] img {
+    object-position: center 65%;
 }
 
 .band-member:hover .band-member-img,

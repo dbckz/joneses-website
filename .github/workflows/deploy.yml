@@ -5,11 +5,13 @@ on:
     branches: [main]
   schedule:
     - cron: '0 6 * * *'  # Rebuild daily at 6am UTC to refresh gig data
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write
 
 concurrency:
   group: pages
@@ -39,3 +41,8 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Keepalive (prevent 60-day scheduled workflow auto-disable)
+        run: gh api -X PUT repos/${{ github.repository }}/actions/workflows/deploy.yml/enable
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

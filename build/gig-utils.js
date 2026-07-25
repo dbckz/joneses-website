@@ -162,6 +162,7 @@ export function generateGigStructuredData(allGigs) {
             'startDate': isoDate,
             'endDate': isoDate,
             'eventStatus': 'https://schema.org/EventScheduled',
+            'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
             'image': 'https://www.thejonesesband.co.uk/og-image.jpg',
             'performer': {
                 '@type': 'MusicGroup',
@@ -175,7 +176,13 @@ export function generateGigStructuredData(allGigs) {
             'location': {
                 '@type': 'Place',
                 'name': gig['Venue'],
-                'address': gig['Location'] || undefined,
+                'address': gig['Location']
+                    ? {
+                        '@type': 'PostalAddress',
+                        'addressLocality': gig['Location'],
+                        'addressCountry': 'GB',
+                    }
+                    : undefined,
             },
         };
 

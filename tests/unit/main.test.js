@@ -434,3 +434,29 @@ describe('generateGigStructuredData offers', () => {
         expect(event.offers.url).toBe('https://tickets.example.com/gig');
     });
 });
+
+describe('generateGigStructuredData location', () => {
+    it('should emit a PostalAddress when a location is given', () => {
+        const [event] = generateGigStructuredData([{
+            'Date': '01/01/2099',
+            'Venue': 'The Ritz',
+            'Location': 'Manchester',
+        }]);
+
+        expect(event.eventAttendanceMode).toBe('https://schema.org/OfflineEventAttendanceMode');
+        expect(event.location.address).toEqual({
+            '@type': 'PostalAddress',
+            'addressLocality': 'Manchester',
+            'addressCountry': 'GB',
+        });
+    });
+
+    it('should omit the address when no location is given', () => {
+        const [event] = generateGigStructuredData([{
+            'Date': '01/01/2099',
+            'Venue': 'The Ritz',
+        }]);
+
+        expect(event.location.address).toBeUndefined();
+    });
+});

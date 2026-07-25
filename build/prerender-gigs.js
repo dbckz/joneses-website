@@ -48,7 +48,9 @@ export default function prerenderGigs() {
 
                 // Inject MusicEvent structured data for upcoming gigs
                 if (events.length > 0) {
-                    const jsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(events, null, 4).split('\n').join('\n    ')}\n    </script>`;
+                    // Escape `<` as < so sheet content can't break out of the script tag
+                    const json = JSON.stringify(events, null, 4).replace(/</g, '\\u003c');
+                    const jsonLd = `<script type="application/ld+json">\n    ${json.split('\n').join('\n    ')}\n    </script>`;
                     html = html.replace('</head>', `${jsonLd}\n</head>`);
                 }
 

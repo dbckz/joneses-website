@@ -9,6 +9,11 @@ import {
     initMobileNav,
     initScrollAnimations,
 } from '../../src/scripts/main.js';
+import {
+    safeUrl,
+    renderGigItem,
+    generateGigStructuredData,
+} from '../../build/gig-utils.js';
 
 // ============================================
 // Email Validation Tests
@@ -364,4 +369,68 @@ describe('initScrollAnimations', () => {
         document.body.removeChild(bandMember);
     });
 
+});
+
+// ============================================
+// Ticket URL Validation Tests
+// ============================================
+describe('safeUrl', () => {
+    it('should allow http and https URLs', () => {
+        expect(safeUrl('https://tickets.example.com/gig')).toBe('https://tickets.example.com/gig');
+        expect(safeUrl('http://tickets.example.com')).toBe('http://tickets.example.com');
+        expect(safeUrl('  HTTPS://tickets.example.com  ')).toBe('HTTPS://tickets.example.com');
+    });
+
+    it('should reject non-http(s) URLs and empty values', () => {
+        expect(safeUrl('javascript:alert(1)')).toBe('');
+        expect(safeUrl('  JaVaScRiPt:alert(1)')).toBe('');
+        expect(safeUrl('data:text/html,<script>alert(1)</script>')).toBe('');
+        expect(safeUrl('')).toBe('');
+        expect(safeUrl(undefined)).toBe('');
+    });
+});
+
+describe('renderGigItem ticket links', () => {
+    const gig = (ticketUrl) => ({
+        'Date': '01/01/2099',
+        'Venue': 'The Ritz',
+        'Location': 'Manchester',
+        'Ticket URL': ticketUrl,
+    });
+
+    it('should render a ticket link for a valid URL', () => {
+        const html = renderGigItem(gig('https://tickets.example.com/gig'), false);
+
+        expect(html).toContain('href="https://tickets.example.com/gig"');
+        expect(html).toContain('Tickets');
+    });
+
+    it('should fall back to "Not yet on sale" for a javascript: URL', () => {
+        const html = renderGigItem(gig('javascript:alert(1)'), false);
+
+        expect(html).not.toContain('javascript:');
+        expect(html).toContain('Not yet on sale');
+    });
+});
+
+describe('generateGigStructuredData offers', () => {
+    it('should omit offers when the ticket URL is unsafe', () => {
+        const [event] = generateGigStructuredData([{
+            'Date': '01/01/2099',
+            'Venue': 'The Ritz',
+            'Ticket URL': 'javascript:alert(1)',
+        }]);
+
+        expect(event.offers).toBeUndefined();
+    });
+
+    it('should include offers when the ticket URL is safe', () => {
+        const [event] = generateGigStructuredData([{
+            'Date': '01/01/2099',
+            'Venue': 'The Ritz',
+            'Ticket URL': 'https://tickets.example.com/gig',
+        }]);
+
+        expect(event.offers.url).toBe('https://tickets.example.com/gig');
+    });
 });

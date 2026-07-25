@@ -15,6 +15,15 @@ export function escapeHtml(str) {
         .replace(/"/g, '&quot;');
 }
 
+/**
+ * Only http(s) URLs are safe to render as links or emit in structured data.
+ * Anything else (javascript:, data:, etc.) is rejected.
+ */
+export function safeUrl(url) {
+    const trimmed = (url || '').trim();
+    return /^https?:\/\//i.test(trimmed) ? trimmed : '';
+}
+
 function parseCsvLine(line) {
     const fields = [];
     let current = '';
@@ -86,7 +95,7 @@ export function renderGigItem(gig, isPast) {
     const { day, month } = formatGigDate(gig['Date']);
     const venue = escapeHtml(gig['Venue'] || '');
     const location = escapeHtml(gig['Location'] || '');
-    const ticketUrl = gig['Ticket URL'] || '';
+    const ticketUrl = safeUrl(gig['Ticket URL']);
 
     let linkHtml;
     if (isPast) {
@@ -170,10 +179,11 @@ export function generateGigStructuredData(allGigs) {
             },
         };
 
-        if (gig['Ticket URL']) {
+        const ticketUrl = safeUrl(gig['Ticket URL']);
+        if (ticketUrl) {
             event.offers = {
                 '@type': 'Offer',
-                'url': gig['Ticket URL'],
+                'url': ticketUrl,
                 'availability': 'https://schema.org/InStock',
             };
         }

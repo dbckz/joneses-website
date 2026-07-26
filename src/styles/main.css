@@ -129,11 +129,13 @@ body {
 }
 
 .nav-logo {
+    display: inline-block;
     background: var(--green-deep);
     border: 3px solid #eacce3;
     border-radius: 6px;
     padding: 0.3rem 1rem;
     outline: 2px solid var(--green-deep);
+    text-decoration: none;
 }
 
 .nav-logo span {
@@ -776,6 +778,151 @@ main {
 
 .past-gigs-year-list.active {
     display: block;
+}
+
+/* ============================================
+   FAQ Section
+   ============================================ */
+.faq {
+    padding: var(--section-padding);
+    background: var(--cream);
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.faq-item h3 {
+    font-weight: 400;
+}
+
+.faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.5rem 0;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--charcoal);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.faq-question:hover,
+.faq-question:focus {
+    color: var(--green-deep);
+}
+
+.faq-arrow {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: var(--grey);
+    transition: transform 0.3s ease;
+}
+
+.faq-question[aria-expanded="true"] .faq-arrow {
+    transform: rotate(90deg);
+}
+
+.faq-answer {
+    display: none;
+    padding: 0 0 1.5rem;
+    color: var(--grey);
+}
+
+.faq-answer.active {
+    display: block;
+}
+
+.faq-answer a {
+    color: var(--green-deep);
+}
+
+.faq-answer a:hover,
+.faq-answer a:focus {
+    color: var(--charcoal);
+}
+
+/* ============================================
+   Standalone Page Sections
+   (upcoming-gigs / book-the-joneses pages)
+   ============================================ */
+.gigs-page {
+    padding-top: 10rem;
+}
+
+.gigs-intro {
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.8;
+}
+
+.page-hero {
+    padding: 10rem 2rem 4rem;
+    text-align: center;
+    background: var(--charcoal);
+}
+
+.page-hero .section-title {
+    color: white;
+}
+
+.page-hero .section-subtitle {
+    max-width: 700px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.page-section {
+    padding: var(--section-padding);
+    background: var(--cream);
+}
+
+.page-section-alt {
+    background: var(--green-deep);
+    color: white;
+}
+
+.page-section-alt a {
+    color: var(--salmon-light);
+}
+
+.page-section-inner {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-section-inner h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+}
+
+.page-section-inner p {
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+}
+
+.page-section-inner p:last-child {
+    margin-bottom: 0;
+}
+
+.contact-page {
+    background: var(--charcoal);
 }
 
 /* ============================================

@@ -10,7 +10,7 @@ function sitemapLastmod() {
       const path = resolve(__dirname, 'dist/sitemap.xml');
       const content = readFileSync(path, 'utf-8');
       const today = new Date().toISOString().split('T')[0];
-      writeFileSync(path, content.replace('__BUILD_DATE__', today));
+      writeFileSync(path, content.replaceAll('__BUILD_DATE__', today));
       console.log(`[sitemap-lastmod] Set lastmod to ${today}`);
     },
   };
@@ -22,6 +22,13 @@ export default defineConfig({
   build: {
     outDir: '../dist',
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'src/index.html'),
+        'upcoming-gigs': resolve(__dirname, 'src/upcoming-gigs/index.html'),
+        'book-the-joneses': resolve(__dirname, 'src/book-the-joneses/index.html'),
+      },
+    },
   },
   plugins: [prerenderGigs(), sitemapLastmod()],
   server: {

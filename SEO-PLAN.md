@@ -110,3 +110,7 @@ Movement on a competitive generic query takes months; authority accrues slowly
 Profile + entity records first (self-serve, fast), then directory/roundup
 outreach, with on-site pages built in parallel. Review progress quarterly via
 Google Search Console impressions for the generic queries.
+
+
+
+The above is all written by Ai, this is written by Dave. Like you need online reputation and people talking about you and all this kind of stuff. Could I orchestrate that? So like post things in reputable places and all this kind of stuff.

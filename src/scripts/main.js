@@ -264,6 +264,9 @@ export function initScrollAnimations() {
         // Band members
         { selector: '.band-member', class: 'animate-on-scroll animate-stagger' },
 
+        // FAQ items
+        { selector: '.faq-item', class: 'animate-on-scroll' },
+
         // Gigs — handled dynamically by gigs.js after fetch
 
         // Contact section
@@ -511,6 +514,29 @@ export function initMailingListForm() {
 }
 
 // ============================================
+// FAQ Accordion
+// ============================================
+
+/**
+ * Initialize the FAQ accordion on the homepage
+ */
+export function initFaq() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    if (faqItems.length === 0) return;
+
+    faqItems.forEach(item => {
+        const button = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        if (!button || !answer) return;
+
+        button.addEventListener('click', () => {
+            const isOpen = answer.classList.toggle('active');
+            button.setAttribute('aria-expanded', isOpen.toString());
+        });
+    });
+}
+
+// ============================================
 // Smooth Scroll
 // ============================================
 
@@ -583,6 +609,7 @@ export function init() {
     initGigs();
     initContactForm();
     initMailingListForm();
+    initFaq();
     initSmoothScroll();
 }
 

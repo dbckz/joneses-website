@@ -19,11 +19,19 @@ async function fetchGigData() {
 }
 
 export default function prerenderGigs() {
+    // Cache the fetch across HTML entry points (index.html, upcoming-gigs/index.html)
+    // so the sheet is only fetched once per build, not once per page.
+    let gigDataPromise;
+
     return {
         name: 'prerender-gigs',
-        async transformIndexHtml(html) {
+        async transformIndexHtml(html, ctx) {
+            // Only pages that render the gigs list (homepage, upcoming-gigs page) need this.
+            if (!html.includes('id="gigsList"')) return html;
+
             try {
-                const { upcomingHtml, pastHtml, hasPast, events } = await fetchGigData();
+                if (!gigDataPromise) gigDataPromise = fetchGigData();
+                const { upcomingHtml, pastHtml, hasPast, events } = await gigDataPromise;
 
                 html = html.replace(
                     '<p class="gigs-message">Loading gigs...</p>',
@@ -55,10 +63,10 @@ export default function prerenderGigs() {
                 }
 
                 const status = upcomingHtml.includes('gig-item') ? 'gigs' : 'no-gigs message';
-                console.log(`[prerender-gigs] Pre-rendered ${status} (${events.length} events) successfully`);
+                console.log(`[prerender-gigs] Pre-rendered ${status} (${events.length} events) into ${ctx.path}`);
                 return html;
             } catch (error) {
-                console.warn(`[prerender-gigs] Failed to pre-render: ${error.message}`);
+                console.warn(`[prerender-gigs] Failed to pre-render ${ctx.path}: ${error.message}`);
                 console.warn('[prerender-gigs] Falling back to client-side rendering');
                 return html;
             }

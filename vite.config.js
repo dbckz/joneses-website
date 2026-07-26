@@ -16,6 +16,36 @@ function sitemapLastmod() {
   };
 }
 
+function inlineCss() {
+  return {
+    name: 'inline-css',
+    closeBundle() {
+      const htmlFiles = [
+        'dist/index.html',
+        'dist/upcoming-gigs/index.html',
+        'dist/book-the-joneses/index.html',
+      ];
+      const linkRe = /<link\b[^>]*\brel=["']stylesheet["'][^>]*\bhref=["'](\/assets\/main-[^"']+\.css)["'][^>]*>/i;
+      for (const file of htmlFiles) {
+        const htmlPath = resolve(__dirname, file);
+        let html;
+        try {
+          html = readFileSync(htmlPath, 'utf-8');
+        } catch {
+          continue;
+        }
+        const match = html.match(linkRe);
+        if (!match) continue;
+        const cssPath = resolve(__dirname, 'dist', '.' + match[1]);
+        const css = readFileSync(cssPath, 'utf-8');
+        html = html.replace(match[0], `<style>${css}</style>`);
+        writeFileSync(htmlPath, html);
+        console.log(`[inline-css] Inlined ${match[1]} into ${file}`);
+      }
+    },
+  };
+}
+
 export default defineConfig({
   base: '/',
   root: 'src',
@@ -30,7 +60,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [prerenderGigs(), sitemapLastmod()],
+  plugins: [prerenderGigs(), sitemapLastmod(), inlineCss()],
   server: {
     port: 0, // Dynamic port allocation
     open: false,

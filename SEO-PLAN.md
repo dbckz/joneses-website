@@ -33,7 +33,7 @@ year = 80+ authority pages a year. Add each new gig to these at the same time
 as the Google Sheet.
 
 ### 2. Google Business Profile
-- [ ] Create/claim a Business Profile for The Joneses
+- [x] Create/claim a Business Profile for The Joneses (done July 2026)
 - [ ] Ask happy bookers and fans to leave reviews (count + recency matter)
 
 UK searches for "smiths tribute band" get local-flavoured results; a profile

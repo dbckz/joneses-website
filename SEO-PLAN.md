@@ -78,13 +78,12 @@ Google can't connect to the band entity.
 ## On-site (supporting work in this repo)
 
 ### 7. Dedicated landing pages
-`/book-the-joneses/` and `/upcoming-gigs/` are currently meta-refresh redirects
-that rank for nothing. Replace with real pages:
-- [ ] Booking page targeting "book a Smiths tribute band" (what's included,
+Done July 2026 — both are now real pages:
+- [x] Booking page targeting "book a Smiths tribute band" (what's included,
       coverage area, enquiry form)
-- [ ] Gigs page with the pre-rendered listing and MusicEvent markup
-- [ ] Location-flavoured content ("Smiths tribute band London / Kent / Essex…")
-- [ ] Add new pages to sitemap.xml
+- [x] Gigs page with the pre-rendered listing and MusicEvent markup
+- [x] Location-flavoured content ("Smiths tribute band London / Kent / Essex…")
+- [x] Add new pages to sitemap.xml
 
 The homepage can't rank for the brand *and* every generic term at once.
 
@@ -92,7 +91,7 @@ The homepage can't rank for the brand *and* every generic term at once.
 The FAQ claims "widely regarded as one of the best" with nothing backing it.
 - [ ] Collect quotes from venues, bookers, and fans (needed from the band)
 - [ ] Add a visible testimonials section with Review/quote markup
-- [ ] Add visible FAQ section matching the existing FAQPage JSON-LD (the
+- [x] Add visible FAQ section matching the existing FAQPage JSON-LD (done — lives on the booking page, "best band" question removed) (the
       markup currently has no visible on-page counterpart, so Google may
       ignore it)
 
@@ -100,7 +99,7 @@ The FAQ claims "widely regarded as one of the best" with nothing backing it.
 The whole site is ~500 words. Add:
 - [ ] Setlist / "songs we play" section
 - [ ] Embedded YouTube videos with descriptive text
-- [ ] "Areas we cover" paragraph in prose (not just schema)
+- [x] "Areas we cover" paragraph in prose (done — "Where we play" on the booking page)
 
 ---
 

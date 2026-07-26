@@ -30,3 +30,7 @@ new_assets/
 .env
 .env.local
 .env.*.local
+
+# Private planning notes (kept local, not published)
+SEO-PLAN.md
+BAND-SOCIALS-NOTES.md

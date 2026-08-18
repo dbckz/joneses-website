@@ -5,8 +5,6 @@
  * All functions here must be environment-agnostic (no DOM APIs).
  */
 
-export const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS_oB0L7A_wxTEFgXJ43mSMWsjxMTekfnBU8H_IHVQxNGT0x84hZMI67jSRhUXT05KtdqxYpl-szZJH/pub?gid=0&single=true&output=csv';
-
 export function escapeHtml(str) {
     return str
         .replace(/&/g, '&amp;')
@@ -22,50 +20,6 @@ export function escapeHtml(str) {
 export function safeUrl(url) {
     const trimmed = (url || '').trim();
     return /^https?:\/\//i.test(trimmed) ? trimmed : '';
-}
-
-function parseCsvLine(line) {
-    const fields = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            if (inQuotes && line[i + 1] === '"') {
-                current += '"';
-                i++;
-            } else {
-                inQuotes = !inQuotes;
-            }
-        } else if (char === ',' && !inQuotes) {
-            fields.push(current);
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    fields.push(current);
-    return fields;
-}
-
-export function parseCSV(text) {
-    const lines = text.trim().split('\n');
-    if (lines.length < 2) return [];
-
-    const headers = parseCsvLine(lines[0]).map(h => h.trim());
-    const rows = [];
-
-    for (let i = 1; i < lines.length; i++) {
-        const values = parseCsvLine(lines[i]);
-        const row = {};
-        headers.forEach((header, index) => {
-            row[header] = (values[index] || '').trim();
-        });
-        rows.push(row);
-    }
-
-    return rows;
 }
 
 export function parseDate(dateStr) {
@@ -151,8 +105,9 @@ export function generateGigStructuredData(allGigs) {
     const upcoming = valid.filter(g => !isPastGig(g['Date']));
 
     return upcoming.map(gig => {
-        const date = parseDate(gig['Date']);
-        const isoDate = date.toISOString().split('T')[0];
+        // Reformat the date string directly: parseDate gives local midnight,
+        // and toISOString would shift BST dates back a day.
+        const isoDate = toSortable(gig['Date']);
 
         const event = {
             '@context': 'https://schema.org',

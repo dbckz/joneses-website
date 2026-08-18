@@ -1,0 +1,120 @@
+[
+  {
+    "id": "1001",
+    "artist_id": "0",
+    "url": "https://www.bandsintown.com/e/1001",
+    "datetime": "2026-04-18T20:00:00",
+    "title": "The Joneses at The Half Moon",
+    "description": "An evening of Smiths classics.",
+    "venue": {
+      "name": "The Half Moon",
+      "city": "London",
+      "region": "Greater London",
+      "country": "United Kingdom",
+      "latitude": "51.4613",
+      "longitude": "-0.2159"
+    },
+    "offers": [
+      { "type": "Tickets", "url": "https://www.wegottickets.com/event/1001", "status": "available" }
+    ],
+    "lineup": ["The Joneses"]
+  },
+  {
+    "id": "1002",
+    "artist_id": "0",
+    "url": "https://www.bandsintown.com/e/1002",
+    "datetime": "2026-06-27T19:30:00",
+    "title": "The Joneses at The Brook",
+    "description": "Charmed life, live in Southampton.",
+    "venue": {
+      "name": "The Brook",
+      "city": "Southampton",
+      "region": "Hampshire",
+      "country": "United Kingdom",
+      "latitude": "50.9280",
+      "longitude": "-1.3810"
+    },
+    "offers": [
+      { "type": "Tickets", "url": "https://www.ticketweb.uk/event/1002", "status": "available" }
+    ],
+    "lineup": ["The Joneses"]
+  },
+  {
+    "id": "1003",
+    "artist_id": "0",
+    "url": "https://www.bandsintown.com/e/1003",
+    "datetime": "2026-10-10T20:00:00",
+    "title": "The Joneses at The 100 Club",
+    "description": "The Smiths reborn on Oxford Street.",
+    "venue": {
+      "name": "The 100 Club",
+      "city": "London",
+      "region": "Greater London",
+      "country": "United Kingdom",
+      "latitude": "51.5160",
+      "longitude": "-0.1330"
+    },
+    "offers": [
+      { "type": "Tickets", "url": "https://www.seetickets.com/event/1003", "status": "available" }
+    ],
+    "lineup": ["The Joneses"]
+  },
+  {
+    "id": "1004",
+    "artist_id": "0",
+    "url": "https://www.bandsintown.com/e/1004",
+    "datetime": "2026-11-14T19:30:00",
+    "title": "The Joneses at Concorde 2",
+    "description": "Hand in glove, live by the sea.",
+    "venue": {
+      "name": "Concorde 2",
+      "city": "Brighton",
+      "region": "East Sussex",
+      "country": "United Kingdom",
+      "latitude": "50.8195",
+      "longitude": "-0.1225"
+    },
+    "offers": [
+      { "type": "Tickets", "url": "https://www.ticketmaster.co.uk/event/1004", "status": "available" }
+    ],
+    "lineup": ["The Joneses"]
+  },
+  {
+    "id": "1005",
+    "artist_id": "0",
+    "url": "https://www.bandsintown.com/e/1005",
+    "datetime": "2026-12-05T20:00:00",
+    "title": "The Joneses at The Boileroom",
+    "description": "A Guildford Christmas with Morrissey and Marr.",
+    "venue": {
+      "name": "The Boileroom",
+      "city": "Guildford",
+      "region": "Surrey",
+      "country": "United Kingdom",
+      "latitude": "51.2400",
+      "longitude": "-0.5760"
+    },
+    "offers": [],
+    "lineup": ["The Joneses"]
+  },
+  {
+    "id": "1006",
+    "artist_id": "0",
+    "url": "https://www.bandsintown.com/e/1006",
+    "datetime": "2026-12-19T19:00:00",
+    "title": "The Joneses at Trinity",
+    "description": "There is a light that never goes out.",
+    "venue": {
+      "name": "Trinity",
+      "city": "Harrow",
+      "region": "Greater London",
+      "country": "United Kingdom",
+      "latitude": "51.5790",
+      "longitude": "-0.3350"
+    },
+    "offers": [
+      { "type": "Tickets", "url": "https://www.eventbrite.co.uk/e/1006", "status": "available" }
+    ],
+    "lineup": ["The Joneses"]
+  }
+]

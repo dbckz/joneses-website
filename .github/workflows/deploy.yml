@@ -33,6 +33,9 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+        env:
+          BANDSINTOWN_ARTIST_ID: '15658000'
+          BANDSINTOWN_APP_ID: ${{ secrets.BANDSINTOWN_APP_ID }}
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

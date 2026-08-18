@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import prerenderGigs from './build/prerender-gigs.js';
@@ -46,28 +46,41 @@ function inlineCss() {
   };
 }
 
-export default defineConfig({
-  base: '/',
-  root: 'src',
-  build: {
-    outDir: '../dist',
-    emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'src/index.html'),
-        'upcoming-gigs': resolve(__dirname, 'src/upcoming-gigs/index.html'),
-        'book-the-joneses': resolve(__dirname, 'src/book-the-joneses/index.html'),
+export default defineConfig(({ mode }) => {
+  // Load env from the project root with an empty prefix, so both .env files and
+  // real process env vars (e.g. CI secrets) are picked up. The Bandsintown
+  // credentials are re-exposed to client code below as VITE_ vars.
+  const env = loadEnv(mode, __dirname, '');
+  const artistId = env.BANDSINTOWN_ARTIST_ID || '';
+  const appId = env.BANDSINTOWN_APP_ID || '';
+
+  return {
+    base: '/',
+    root: 'src',
+    build: {
+      outDir: '../dist',
+      emptyOutDir: true,
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'src/index.html'),
+          'upcoming-gigs': resolve(__dirname, 'src/upcoming-gigs/index.html'),
+          'book-the-joneses': resolve(__dirname, 'src/book-the-joneses/index.html'),
+        },
       },
     },
-  },
-  plugins: [prerenderGigs(), sitemapLastmod(), inlineCss()],
-  server: {
-    port: 0, // Dynamic port allocation
-    open: false,
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
+    define: {
+      'import.meta.env.VITE_BANDSINTOWN_ARTIST_ID': JSON.stringify(artistId),
+      'import.meta.env.VITE_BANDSINTOWN_APP_ID': JSON.stringify(appId),
     },
-  },
+    plugins: [prerenderGigs({ artistId, appId }), sitemapLastmod(), inlineCss()],
+    server: {
+      port: 0, // Dynamic port allocation
+      open: false,
+    },
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src'),
+      },
+    },
+  };
 });

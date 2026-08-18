@@ -1,14 +1,20 @@
 /**
  * The Joneses - Gigs Module
- * Fetches gig data from a published Google Sheet CSV and renders it,
- * or hydrates pre-rendered content from the build plugin.
+ * Hydrates pre-rendered gig content from the build plugin, then (when
+ * Bandsintown credentials are configured) refreshes it from the live
+ * Bandsintown API so the listing stays current between builds.
  */
 
-import {
-    SHEET_CSV_URL,
-    parseCSV,
-    sortAndRenderGigs,
-} from '../../build/gig-utils.js';
+import { sortAndRenderGigs } from '../../build/gig-utils.js';
+import { fetchBandsintownEvents } from '../../build/bandsintown.js';
+
+// Injected at build time via Vite `define` (VITE_-prefixed). Undefined when no
+// credentials are configured, in which case the pre-rendered content is kept.
+const ARTIST_ID = import.meta.env.VITE_BANDSINTOWN_ARTIST_ID;
+const APP_ID = import.meta.env.VITE_BANDSINTOWN_APP_ID;
+
+const LOADING_MESSAGE = '<p class="gigs-message">Loading gigs...</p>';
+const NO_GIGS_MESSAGE = '<p class="gigs-message">Check back soon for upcoming gigs.</p>';
 
 function handlePastGigsToggleClick(pastGigsContainer, pastGigsToggle) {
     const isOpen = pastGigsContainer.classList.toggle('active');
@@ -74,22 +80,26 @@ export async function initGigs() {
         observeGigItems();
     }
 
-    // Show loading state only when there is no pre-rendered content
-    if (!isPrerendered) {
-        gigsContainer.innerHTML = '<p class="gigs-message">Loading gigs...</p>';
+    // Without credentials there is no live source to refresh from — keep the
+    // pre-rendered content as-is (no fetch, no error state).
+    if (!ARTIST_ID || !APP_ID) {
+        if (!isPrerendered) gigsContainer.innerHTML = NO_GIGS_MESSAGE;
+        return;
     }
 
-    try {
-        const response = await fetch(SHEET_CSV_URL);
-        if (!response.ok) throw new Error('Failed to fetch');
+    // Show loading state only when there is no pre-rendered content
+    if (!isPrerendered) gigsContainer.innerHTML = LOADING_MESSAGE;
 
-        const csv = await response.text();
-        const result = sortAndRenderGigs(parseCSV(csv));
+    try {
+        const allGigs = await fetchBandsintownEvents({
+            artistId: ARTIST_ID,
+            appId: APP_ID,
+            includePast: true,
+        });
+        const result = sortAndRenderGigs(allGigs);
         renderFreshGigs(gigsContainer, pastGigsContainer, pastGigsToggle, result);
     } catch {
         // If pre-rendered content is already showing, leave it in place
-        if (!isPrerendered) {
-            gigsContainer.innerHTML = '<p class="gigs-message">Check back soon for upcoming gigs.</p>';
-        }
+        if (!isPrerendered) gigsContainer.innerHTML = NO_GIGS_MESSAGE;
     }
 }

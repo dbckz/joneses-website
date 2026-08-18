@@ -14,6 +14,7 @@ import {
     renderGigItem,
     generateGigStructuredData,
 } from '../../build/gig-utils.js';
+import { normalizeBandsintownEvent } from '../../build/bandsintown.js';
 
 // ============================================
 // Email Validation Tests
@@ -432,6 +433,89 @@ describe('generateGigStructuredData offers', () => {
         }]);
 
         expect(event.offers.url).toBe('https://tickets.example.com/gig');
+    });
+});
+
+// ============================================
+// Bandsintown Normalization Tests
+// ============================================
+describe('normalizeBandsintownEvent', () => {
+    const baseEvent = (overrides = {}) => ({
+        datetime: '2026-11-14T20:00:00',
+        url: 'https://www.bandsintown.com/e/1004',
+        venue: {
+            name: 'Concorde 2',
+            city: 'Brighton',
+            region: 'East Sussex',
+            country: 'United Kingdom',
+        },
+        offers: [{ type: 'Tickets', url: 'https://tickets.example.com/1004' }],
+        ...overrides,
+    });
+
+    it('maps the shared gig shape from a Bandsintown event', () => {
+        const gig = normalizeBandsintownEvent(baseEvent());
+
+        expect(gig).toEqual({
+            'Date': '14/11/2026',
+            'Venue': 'Concorde 2',
+            'Location': 'Brighton',
+            'Ticket URL': 'https://tickets.example.com/1004',
+        });
+    });
+
+    it('converts the venue-local datetime to dd/mm/yyyy without timezone shift', () => {
+        const gig = normalizeBandsintownEvent(baseEvent({ datetime: '2026-01-05T23:30:00' }));
+        expect(gig['Date']).toBe('05/01/2026');
+    });
+
+    it('uses only the city for UK venues', () => {
+        const gig = normalizeBandsintownEvent(baseEvent({
+            venue: { name: 'The 100 Club', city: 'London', region: 'Greater London', country: 'United Kingdom' },
+        }));
+        expect(gig['Location']).toBe('London');
+    });
+
+    it('treats other UK country spellings as UK too', () => {
+        const gig = normalizeBandsintownEvent(baseEvent({
+            venue: { name: 'King Tut\'s', city: 'Glasgow', region: 'Scotland', country: 'Scotland' },
+        }));
+        expect(gig['Location']).toBe('Glasgow');
+    });
+
+    it('appends region/country for non-UK venues', () => {
+        const gig = normalizeBandsintownEvent(baseEvent({
+            venue: { name: 'Paradiso', city: 'Amsterdam', region: 'Noord-Holland', country: 'Netherlands' },
+        }));
+        expect(gig['Location']).toBe('Amsterdam, Noord-Holland');
+    });
+
+    it('falls back to country when a non-UK venue has no region', () => {
+        const gig = normalizeBandsintownEvent(baseEvent({
+            venue: { name: 'Le Trabendo', city: 'Paris', region: '', country: 'France' },
+        }));
+        expect(gig['Location']).toBe('Paris, France');
+    });
+
+    it('falls back to the event url when there are no offers', () => {
+        const gig = normalizeBandsintownEvent(baseEvent({ offers: [] }));
+        expect(gig['Ticket URL']).toBe('https://www.bandsintown.com/e/1004');
+    });
+
+    it('falls back to the event url when offers is missing entirely', () => {
+        const event = baseEvent();
+        delete event.offers;
+        const gig = normalizeBandsintownEvent(event);
+        expect(gig['Ticket URL']).toBe('https://www.bandsintown.com/e/1004');
+    });
+
+    it('produces a gig that flows through generateGigStructuredData', () => {
+        const gig = normalizeBandsintownEvent(baseEvent({ datetime: '2099-05-01T20:00:00' }));
+        const [event] = generateGigStructuredData([gig]);
+
+        expect(event['@type']).toBe('MusicEvent');
+        expect(event.location.name).toBe('Concorde 2');
+        expect(event.offers.url).toBe('https://tickets.example.com/1004');
     });
 });
 

@@ -1,0 +1,4 @@
+# <type> <path-relative-to-this-repo> <backup-name>
+# Gitignored planning notes.
+file SEO-PLAN.md joneses-website_SEO-PLAN.md
+file BAND-SOCIALS-NOTES.md joneses-website_BAND-SOCIALS-NOTES.md

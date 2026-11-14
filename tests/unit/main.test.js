@@ -333,11 +333,11 @@ describe('initScrollAnimations', () => {
         mockUnobserve = vi.fn();
         mockDisconnect = vi.fn();
 
-        global.IntersectionObserver = vi.fn().mockImplementation((callback) => ({
+        global.IntersectionObserver = vi.fn().mockImplementation(function (callback) { return {
             observe: mockObserve,
             unobserve: mockUnobserve,
             disconnect: mockDisconnect,
-        }));
+        }; });
     });
 
     afterEach(() => {

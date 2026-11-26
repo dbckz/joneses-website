@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment-retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -38,12 +38,30 @@ jobs:
           BANDSINTOWN_APP_ID: ${{ secrets.BANDSINTOWN_APP_ID }}
 
       - uses: actions/configure-pages@v5
+      # Per-attempt artifact name so a re-run never finds two "github-pages" artifacts.
       - uses: actions/upload-pages-artifact@v3
         with:
+          name: github-pages-${{ github.run_attempt }}
           path: dist
+
+      # The artifact API is eventually consistent: deploy-pages sometimes can't
+      # see an artifact uploaded seconds earlier. Pause, then retry once.
+      - run: sleep 15
 
       - id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
+
+      - if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+
+      - id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
 
       - name: Keepalive (prevent 60-day scheduled workflow auto-disable)
         run: gh api -X PUT repos/${{ github.repository }}/actions/workflows/deploy.yml/enable
